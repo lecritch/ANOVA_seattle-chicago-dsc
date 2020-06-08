@@ -3,17 +3,18 @@
 Today, we will be learning ANOVA, a generalized form of comparing mean across multiple groups. 
 Agenda today:
 1. Compare t-tests and ANOVA
-2. Learn to calculate ANOVA & details 
-3. Implement ANOVA in python
-    - using statsmodel
+2. Differentiate between variance between groups and variance within groups
+3. Learn to calculate ANOVA
+4. Implement ANOVA in Python
+    - using statsmodels
 
 
-## Part I. T tests or ANOVA?
+## 1. T tests or ANOVA?
 **ANOVA** or *Analysis Of Variance*  provides a statistical test of whether two or more population means are equal, and therefore generalizes the t-test beyond two means.
 
 Suppose we want to compare whether multiple groups differ in some type of measures. For example, we have collected mood data grouped by four types of weather - sunny, raining, overcast, or cloudy, and we want to find out whether there is a difference in mood across different weather. What tests would you use?
 
-A natural reaction would be to conduct multiple t-tests. However, that comes with many drawbacks. First, you would need $\frac{n(n-1)}{2}$ t tests, which come out to 6 tests. Having more tests meaning having higher chance of making type I error. In this case, our original probability of making type I error grew from 5% to 5% x 6 = 30%! By conducting 6 tests and comparing their mean to each other, we are running a huge risk of making false positives. How then, can we combat this? -- ANOVA!
+A natural reaction would be to conduct multiple t-tests. However, that comes with many drawbacks. First, you would need $\frac{n(n-1)}{2}$ t tests, which come out to 6 tests. Having more tests meaning having higher chance of making type I error. In this case, our original probability of making type I error grew from 5% to 5% x 6 = 30%! By conducting 6 tests and comparing their mean to each other, we are running a huge risk of making false positives. This is known as the multiple comparison problem. How then, can we combat this? -- ANOVA!
 
 Instead of looking at each individual difference, ANOVA examines the ratio of variance between groups, and variance within groups, to find out whether the ratio is big enough to be statistically significant. 
 
@@ -33,6 +34,32 @@ We can also say that t test is a special case of ANOVA in that we are comparing 
 
 #### ANOVA - the F test
 $F = \frac{MS_{bet}}{MS_{within}}$
+
+Just like t and z tests, we calculate a test statistic, then compare it to a critical value associated with a probability distribution.  In this case, that is the f-distribution.
+
+![fdistribution](img/f_distribution.png)
+
+Degrees of freedom of an F-test originate from:
+  - the degrees of freedom from the numerator of the f-stat (DF between)
+  - the degrees of freedom from the denominator of the f-stat (DF within) 
+(more below)
+
+# Discussion:
+
+## Which test would you run for each these scenarios:
+
+1. The average salary per month of an English Premier League player is $240,000€$. You would like to test whether players who don't have a dominant foot make more than the rest of the league.  There are only 25 players who are considered ambidextrous. 
+
+2. You would like to test whether there is a difference in arrest rates across neighborhoods with different racial majorities.  You have point statistics of mean arrest rates associated with neighborhoods of majority white, black, hispanic, and asian populations.
+
+3. You are interested in testing whether the superstition that black cats are bad luck affects adoption rate.  You would like to test whether black-fur shelter cats get adopted at a different rate than cats of other fur colors.
+
+4. You are interested in whether car-accident rates in cities where marijuana is legal differs from the general rate of car accidents.  Assume you know the standard deviation of car accident rates across all U.S. cities.
+
+
+
+## 2. Differentiate between variance between groups and variance within groups
+
 
 <img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/12/image046.png" width="500">
 
@@ -66,48 +93,43 @@ Run the f_oneway funciton scypy.stats to check your conclusions
 
 
 ```python
-fig, ax = plt.subplots(2,2, figsize=(15,10))
+fig, ax = plt.subplots(1,3, figsize=(15,10))
 
-sns.distplot(a, hist=False, ax=ax[0][0])
-sns.distplot(b, hist=False, ax=ax[0][0])
-sns.distplot(c, hist=False, ax=ax[0][0])
+sns.distplot(a, hist=False, ax=ax[0])
+sns.distplot(b, hist=False, ax=ax[0])
+sns.distplot(c, hist=False, ax=ax[0])
 
-sns.distplot(one, hist=False, ax=ax[0][1])
-sns.distplot(two, hist=False, ax=ax[0][1])
-sns.distplot(three, hist=False, ax=ax[0][1])
+sns.distplot(one, hist=False, ax=ax[1])
+sns.distplot(two, hist=False, ax=ax[1])
+sns.distplot(three, hist=False, ax=ax[1])
 
-sns.distplot(x, hist=False, ax=ax[1][0])
-sns.distplot(y, hist=False, ax=ax[1][0])
-sns.distplot(z, hist=False, ax=ax[1][0])
-
-sns.distplot(four, hist=False, ax=ax[1][1])
-sns.distplot(five, hist=False, ax=ax[1][1])
-sns.distplot(six, hist=False, ax=ax[1][1])
+sns.distplot(four, hist=False, ax=ax[2])
+sns.distplot(five, hist=False, ax=ax[2])
+sns.distplot(six, hist=False, ax=ax[2])
 
 # Large variance overcomes the difference in means, so low fstat
 print(stats.f_oneway(a,b,c))
 # Difference in means is able to overcome the small variance, so high fstat
 print(stats.f_oneway(one,two,three))
-# Difference in means is able to overcome variance, since the small sample size of large variance 
-# is outweighed by the small variance in larger sample sizes
-print(stats.f_oneway(x,y,z))
 # Two samples are indistinguishable, but the third sample's large difference in means are able to overcome
 # the within group variance to distinguish itself.
 print(stats.f_oneway(four,five,six))
 ```
 
     F_onewayResult(statistic=0.06693195000987277, pvalue=0.9353322377145488)
-    F_onewayResult(statistic=10.020229924359118, pvalue=0.00018661463272077867)
-    F_onewayResult(statistic=48.70686089104815, pvalue=2.254500528606684e-12)
-    F_onewayResult(statistic=3.424034327506795, pvalue=0.03942049651729238)
+    F_onewayResult(statistic=11.760064743099003, pvalue=5.2985391195830756e-05)
+    F_onewayResult(statistic=3.194250788724835, pvalue=0.048432238619556506)
 
 
 
-![png](index_files/index_10_1.png)
+![png](index_files/index_14_1.png)
 
 
-## Part II. Calculating ANOVA 
-In this section, we will learn how to calculate ANOVA without using any pacakges. All we need to calculate is:
+## 3. Calculating ANOVA 
+In this section, we will learn how to calculate ANOVA without using any packages. All we need to calculate is:
+ 
+$\bar{X} = $ Mean of Means
+
 
 Total Sum of Squares is the every value minus the mean of the entire population, or in other words, the total varaince of the population. 
 - $SS_t$ = $\sum (X_{ij} - \bar X)^2$
@@ -202,7 +224,7 @@ f_stat
 
 
 
-### 2.2 Calculate ANOVA using statsmodel
+## 4. Calculate ANOVA using statsmodel
 
 <img src="attachment:Screen%20Shot%202019-06-03%20at%2010.36.09%20AM.png" width="400">
 
