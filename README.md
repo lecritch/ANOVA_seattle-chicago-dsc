@@ -137,10 +137,11 @@ Total Sum of Squares is the square of every value minus the mean means, or in ot
 The total sum of squares can be broken down into the sum of squares between and the sum of squares within.
 - $SS_t =  SS_b+SS_w  $
 
-The sum of squares between accounts for variance in the dataset that comes from the difference between the mean of each sample, divided by the mean of means. That is, the sum of the difference between each group mean and the mean of means for each data point: 
+The sum of squares between accounts for variance in the dataset that comes from the difference between the mean of each sample, without dividing through by the degrees of freedom.   
+Or, in other words, the weighted deviation of each mean from the mean of means:
 - $SS_b$ = $\sum(n_i(\bar X - \bar X_i)^2) $
 
-The sum of squares within accounts for variance that comes from within each sample.  That is, the sum of the variances of each group weighted by the group's degrees of freedom:
+The sum of squares within accounts for variance that comes from within each sample.  That is, the sum of the variance of each group weighted by its degrees of freedom. This is really just the sum of the square of each data point's deviation from its sample mean:
 - $SS_w$ = $\sum (n_i - 1) s_i ^ 2$  
 
 Degrees of Freedom for ANOVA:
@@ -222,7 +223,6 @@ f_stat
 ```
 
     2739535392.046512
-    2739535392.0465117
 
 
 
