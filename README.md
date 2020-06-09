@@ -74,10 +74,18 @@ t
 ```
 
 
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    <ipython-input-3-cd626df458a8> in <module>
+          1 # Identical p_values
+          2 from scipy.stats import ttest_ind
+    ----> 3 t = ttest_ind(one, two, equal_var=True)
+          4 t
 
 
-    Ttest_indResult(statistic=-1.189162061736703, pvalue=0.23580003919580297)
-
+    NameError: name 'one' is not defined
 
 
 
@@ -85,13 +93,6 @@ t
 # Two-sample t-stat equals F-stat squared
 t.statistic**2
 ```
-
-
-
-
-    1.414106409073886
-
-
 
 # Discussion:
 
@@ -125,13 +126,6 @@ Answer: Two-sample two tailed t-test
 Answer: Z-test  
 '''
 ```
-
-
-
-
-    "\n# Which test would you run fort these scenarios:\n\n1. The average salary per month of an English Premier League player is 240,000 Pounds. You would like to test whether players who don't have a dominant foot make more than the rest of the league.  There are only 25 players who are considered ambidextrous. \nAnswer: one_sample t-test: small sample size  \n\n2. You would like to test whether there is a difference in arrest rates across neighborhoods with different racial majorities.  You have point statistics of mean arrest rates associated with neighborhoods of majority white, black, hispanic, and asian populations.\nAnswer: ANOVA  \n3. You are interested in testing whether the superstition that black cats are bad luck affects adoption rate.  You would like to test whether black-fur shelter cats get adopted at a different rate than cats of other fur colors.\nAnswer: Two-sample two tailed t-test  \n4. You are interested in whether car-accident rates in cities where marijuana is legal differs from the general rate of car accidents. Assume you know the standard deviation of car accident rates across all U.S. cities.\nAnswer: Z-test  \n"
-
-
 
 ## 2. Differentiate between variance between groups and variance within groups
 
@@ -189,16 +183,27 @@ six = np.random.normal(23,10,20)
 ```
 
 
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    <ipython-input-4-7e7d57330f72> in <module>
+          2 import seaborn as sns
+          3 # Create three sets of data without much difference in means
+    ----> 4 np.random.seed(42)
+          5 
+          6 a = np.random.normal(20,20,20)
+
+
+    NameError: name 'np' is not defined
+
+
+
 ```python
 print(stats.f_oneway(a,b,c))
 print(stats.f_oneway(one,two,three))
 print(stats.f_oneway(four,five,six))
 ```
-
-    F_onewayResult(statistic=0.06693195000987277, pvalue=0.9353322377145488)
-    F_onewayResult(statistic=11.760064743099003, pvalue=5.2985391195830756e-05)
-    F_onewayResult(statistic=3.194250788724835, pvalue=0.048432238619556506)
-
 
 ## 3. Calculating ANOVA 
 In this section, we will learn how to calculate ANOVA without using any packages. All we need to calculate is:
@@ -229,6 +234,13 @@ Degrees of Freedom for ANOVA:
 -  $DF_{between}$ = k - 1
 - $DF_{within}$ = N - k
 - $DF_{total}$ = N - 1
+
+
+```python
+# Think of these with an eye toward the effect of increasing and decreasing the degrees of freedom.  
+# More DF in the numerator means the difference between the means is less significant. The variance between the means is split between means.
+# More DF in the denominator means splits up the variance within the groups. 
+```
 
 Notations:
 - k is the number of groups
@@ -562,12 +574,12 @@ df.boxplot('cnt', by='season_cat', figsize=(6,6))
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a2d9f5320>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1a1d0cdbe0>
 
 
 
 
-![png](index_files/index_27_1.png)
+![png](index_files/index_28_1.png)
 
 
 
@@ -602,6 +614,7 @@ print(stats.ttest_ind(summer, winter))
 
 
 ```python
+import numpy as np
 # Code for me:
 
 mccalister = ['Adam', 'Amanda','Chum', 'Dann', 
@@ -613,7 +626,7 @@ print(new_choice)
 mccalister.remove(new_choice)
 ```
 
-    Karim
+    Luluva
 
 
 
@@ -623,24 +636,41 @@ mccalister.remove(new_choice)
 # Let's code the f-stat together
 # Here is the pseudo code
 
+# Calculate is the Total sum of squares 
+# which can be thought of as the variance without dividing through by the sample size 
+# We can decompose SS into SSb and SSw
+ss = None
+
 # Define k 
-
+k = None
 # Define N
-
+N = None
 # Calculate SSB
 
+ssb = None
 # Calculate SSW
 
+ssw = None
+
+# check
+ss == ssb+ssw
+
 # Calculate DFw
+DFw = None
 
 # Calculate DFb
+DFb = None
 
 # Calculate MSb
+# The variance that comes from between group variation
+Msb = None
 
 # Calculate MSw
+# The variance that comes from within group variation
+MSw = None
 
 # Calculate F-stat
-
+f_stat = None
 
 ```
 
@@ -659,7 +689,7 @@ data.boxplot('cnt', by = 'season_cat')
 
 
 
-![png](index_files/index_32_1.png)
+![png](index_files/index_33_1.png)
 
 
 
