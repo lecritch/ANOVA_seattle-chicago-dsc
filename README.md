@@ -60,7 +60,7 @@ stats.f_oneway(one, two)
 
 
 
-    F_onewayResult(statistic=1.4141064090738857, pvalue=0.2358000391958012)
+    F_onewayResult(statistic=14.469752429760199, pvalue=0.00018970115190352244)
 
 
 
@@ -74,18 +74,10 @@ t
 ```
 
 
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    <ipython-input-3-cd626df458a8> in <module>
-          1 # Identical p_values
-          2 from scipy.stats import ttest_ind
-    ----> 3 t = ttest_ind(one, two, equal_var=True)
-          4 t
 
 
-    NameError: name 'one' is not defined
+    Ttest_indResult(statistic=-3.803912778936999, pvalue=0.00018970115190352211)
+
 
 
 
@@ -93,6 +85,13 @@ t
 # Two-sample t-stat equals F-stat squared
 t.statistic**2
 ```
+
+
+
+
+    14.4697524297602
+
+
 
 # Discussion:
 
@@ -126,6 +125,13 @@ Answer: Two-sample two tailed t-test
 Answer: Z-test  
 '''
 ```
+
+
+
+
+    "\n# Which test would you run fort these scenarios:\n\n1. The average salary per month of an English Premier League player is 240,000 Pounds. You would like to test whether players who don't have a dominant foot make more than the rest of the league.  There are only 25 players who are considered ambidextrous. \nAnswer: one_sample t-test: small sample size  \n\n2. You would like to test whether there is a difference in arrest rates across neighborhoods with different racial majorities.  You have point statistics of mean arrest rates associated with neighborhoods of majority white, black, hispanic, and asian populations.\nAnswer: ANOVA  \n3. You are interested in testing whether the superstition that black cats are bad luck affects adoption rate.  You would like to test whether black-fur shelter cats get adopted at a different rate than cats of other fur colors.\nAnswer: Two-sample two tailed t-test  \n4. You are interested in whether car-accident rates in cities where marijuana is legal differs from the general rate of car accidents. Assume you know the standard deviation of car accident rates across all U.S. cities.\nAnswer: Z-test  \n"
+
+
 
 ## 2. Differentiate between variance between groups and variance within groups
 
@@ -183,22 +189,6 @@ six = np.random.normal(23,10,20)
 ```
 
 
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    <ipython-input-4-7e7d57330f72> in <module>
-          2 import seaborn as sns
-          3 # Create three sets of data without much difference in means
-    ----> 4 np.random.seed(42)
-          5 
-          6 a = np.random.normal(20,20,20)
-
-
-    NameError: name 'np' is not defined
-
-
-
 ```python
 #__SOLUTION__
 fig, ax = plt.subplots(1,3, figsize=(15,10))
@@ -224,6 +214,15 @@ print(stats.f_oneway(one,two,three))
 print(stats.f_oneway(four,five,six))
 ```
 
+    F_onewayResult(statistic=0.06693195000987277, pvalue=0.9353322377145488)
+    F_onewayResult(statistic=11.760064743099003, pvalue=5.2985391195830756e-05)
+    F_onewayResult(statistic=3.194250788724835, pvalue=0.048432238619556506)
+
+
+
+![png](index_files/index_20_1.png)
+
+
 
 ```python
 print(stats.f_oneway(a,b,c))
@@ -231,13 +230,18 @@ print(stats.f_oneway(one,two,three))
 print(stats.f_oneway(four,five,six))
 ```
 
+    F_onewayResult(statistic=0.06693195000987277, pvalue=0.9353322377145488)
+    F_onewayResult(statistic=11.760064743099003, pvalue=5.2985391195830756e-05)
+    F_onewayResult(statistic=3.194250788724835, pvalue=0.048432238619556506)
+
+
 ## 3. Calculating ANOVA 
 In this section, we will learn how to calculate ANOVA without using any packages. All we need to calculate is:
  
-$\bar{X} = $ Mean of Means
+$\bar{X} = $ Mean of Means = Mean of entire dataset
 
 
-Total Sum of Squares is the every value minus the mean of the entire population, or in other words, the total varaince of the population. 
+Total Sum of Squares is the square of every value minus the mean means, or in other words, the variance of the entire dataset without dividing through by degrees of freedom. 
 - $SS_t$ = $\sum (X_{ij} - \bar X)^2$
 
 The total sum of squares can be broken down into the sum of squares between and the sum of squares within.
@@ -249,29 +253,21 @@ The sum of squares between accounts for variance in the dataset that comes from 
 The sum of squares within accounts for variance that comes from within each sample.  That is, the sum of the variances of each group weighted by the group's degrees of freedom:
 - $SS_w$ = $\sum (n_i - 1) s_i ^ 2$  
 
+Degrees of Freedom for ANOVA:
+-  $DF_{between}$ = k - 1
+- $DF_{within}$ = N - k
+- $DF_{total}$ = N - 1
+
+Notations:
+- k is the number of groups
+- N is the total number of observations
+- n is the number of observations in each group
 
 - $MS_b$ = $\frac{SS_b}{DF_b}$
 - $MS_w$ = $\frac{SS_w}{DF_w}$
 
 
 - $F$ = $\frac{MS_b}{MS_w}$
-
-Degrees of Freedom for ANOVA:
--  $DF_{between}$ = k - 1
-- $DF_{within}$ = N - k
-- $DF_{total}$ = N - 1
-
-
-```python
-# Think of these with an eye toward the effect of increasing and decreasing the degrees of freedom.  
-# More DF in the numerator means the difference between the means is less significant. The variance between the means is split between means.
-# More DF in the denominator means splits up the variance within the groups. 
-```
-
-Notations:
-- k is the number of groups
-- N is the total number of observations
-- n is the number of observations in each group
 
 Like regression and t-test, we can also perform hypothesis testing with ANOVA. 
 
@@ -600,7 +596,7 @@ df.boxplot('cnt', by='season_cat', figsize=(6,6))
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a1d0cdbe0>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1a1fe634a8>
 
 
 
