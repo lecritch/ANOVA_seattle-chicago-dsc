@@ -109,7 +109,7 @@ t.statistic**2
 
 
 ```python
-#_SOLUTION__
+#__SOLUTION__
 
 '''
 # Which test would you run fort these scenarios:
