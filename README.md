@@ -212,10 +212,11 @@ Total Sum of Squares is the square of every value minus the mean means, or in ot
 The total sum of squares can be broken down into the sum of squares between and the sum of squares within.
 - $SS_t =  SS_b+SS_w  $
 
-The sum of squares between accounts for variance in the dataset that comes from the difference between the mean of each sample, divided by the mean of means. That is, the sum of the difference between each group mean and the mean of means for each data point: 
+The sum of squares between accounts for variance in the dataset that comes from the difference between the mean of each sample, without dividing through by the degrees of freedom.   
+Or, in other words, the weighted deviation of each mean from the mean of means:
 - $SS_b$ = $\sum(n_i(\bar X - \bar X_i)^2) $
 
-The sum of squares within accounts for variance that comes from within each sample.  That is, the sum of the variances of each group weighted by the group's degrees of freedom:
+The sum of squares within accounts for variance that comes from within each sample.  That is, the sum of the variance of each group weighted by its degrees of freedom. This is really just the sum of the square of each data point's deviation from its sample mean:
 - $SS_w$ = $\sum (n_i - 1) s_i ^ 2$  
 
 Degrees of Freedom for ANOVA:
@@ -561,7 +562,7 @@ df.boxplot('cnt', by='season_cat', figsize=(6,6))
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a1fe634a8>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1a16346dd8>
 
 
 
@@ -613,7 +614,30 @@ print(new_choice)
 mccalister.remove(new_choice)
 ```
 
-    Luluva
+    Jason
+
+
+
+```python
+df.cnt
+```
+
+
+
+
+    0       985
+    1       801
+    2      1349
+    3      1562
+    4      1600
+           ... 
+    726    2114
+    727    3095
+    728    1341
+    729    1796
+    730    2729
+    Name: cnt, Length: 731, dtype: int64
+
 
 
 
@@ -632,7 +656,10 @@ ss = None
 k = None
 # Define N
 N = None
+
 # Calculate SSB
+
+
 
 ssb = None
 # Calculate SSW
@@ -640,7 +667,7 @@ ssb = None
 ssw = None
 
 # check
-ss == ssb+ssw
+# ss == ssb+ssw
 
 # Calculate DFw
 DFw = None
@@ -661,6 +688,10 @@ f_stat = None
 
 ```
 
+    2739535392.046512
+    2739535392.046512
+
+
 ## 4. Calculate ANOVA using statsmodel
 
 
@@ -676,7 +707,7 @@ data.boxplot('cnt', by = 'season_cat')
 
 
 
-![png](index_files/index_33_1.png)
+![png](index_files/index_34_1.png)
 
 
 
