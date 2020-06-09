@@ -60,7 +60,7 @@ stats.f_oneway(one, two)
 
 
 
-    F_onewayResult(statistic=9.171629499521934, pvalue=0.0027853151648186097)
+    F_onewayResult(statistic=16.878691082108578, pvalue=5.829850982667509e-05)
 
 
 
@@ -76,7 +76,7 @@ t
 
 
 
-    Ttest_indResult(statistic=-3.028469828068612, pvalue=0.0027853151648186292)
+    Ttest_indResult(statistic=-4.108368420931669, pvalue=5.8298509826675854e-05)
 
 
 
@@ -89,7 +89,7 @@ t.statistic**2
 
 
 
-    9.171629499521929
+    16.878691082108574
 
 
 
@@ -536,7 +536,7 @@ df.boxplot('cnt', by='season_cat', figsize=(6,6))
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a1f6e04e0>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1a24ed2cc0>
 
 
 
@@ -591,7 +591,7 @@ np.random.choice(mccalister, 3)
 
 
 
-    array(['Jacob', 'Karim', 'Adam'], dtype='<U10')
+    array(['Jacob', 'Maximilian', 'Chum'], dtype='<U10')
 
 
 
@@ -619,32 +619,33 @@ np.random.choice(mccalister, 3)
 9. # Define and properly name a variable whose contents, if close to 1, represents a dataset whose 
 # larger group variances drown the distinguishing qualities of differences in means.
 
-9 # Ensure that the prior calculation matches the output below:
+10. # Ensure that the prior calculation matches the output below:
 
-f = stats.f_oneway(df['cnt'][df['season_cat'] == 'summer'],
+```
+
+
+
+
+    10.0
+
+
+
+## Perform an ANOVA with scipy
+
+
+```python
+anova = stats.f_oneway(df['cnt'][df['season_cat'] == 'summer'],
                 df['cnt'][df['season_cat'] == 'fall'], 
                 df['cnt'][df['season_cat'] == 'winter'],
                 df['cnt'][df['season_cat'] == 'spring'])
 
-f.statistic
+anova.statistic
 ```
 
 
 
 
     128.76962156570784
-
-
-
-
-```python
-
-```
-
-
-
-
-    array(['spring', 'summer', 'fall', 'winter'], dtype=object)
 
 
 
@@ -663,7 +664,7 @@ data.boxplot('cnt', by = 'season_cat')
 
 
 
-![png](index_files/index_33_1.png)
+![png](index_files/index_34_1.png)
 
 
 
@@ -688,23 +689,6 @@ print(anova_table)
 
 
 <img src="attachment:Screen%20Shot%202019-06-03%20at%2010.36.09%20AM.png" width="400">
-
-## Perform an ANOVA with scipy
-
-
-```python
-stats.f_oneway(data['cnt'][data['season_cat'] == 'summer'],
-                data['cnt'][data['season_cat'] == 'fall'], 
-                data['cnt'][data['season_cat'] == 'winter'],
-                data['cnt'][data['season_cat'] == 'spring'])
-```
-
-
-
-
-    F_onewayResult(statistic=128.76962156570784, pvalue=6.720391362913176e-67)
-
-
 
 #### Next steps
 Just because we have rejected the null hypothesis, it doesn't mean we have conclusively showed which group is significantly different from which - remember, the alternative hypothesis is "the null is not true". 
