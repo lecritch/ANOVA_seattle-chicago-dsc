@@ -192,6 +192,8 @@ Like regression and t-test, we can also perform hypothesis testing with ANOVA.
 
 Under the null hypothesis (and with certain assumptions), both quantities estimate the variance of the random error, and thus the ratio should be small. If the ratio is large, then we have evidence against the null, and hence, we would reject the null hypothesis.
 
+## Perform an ANOVA with scipy
+
 
 ```python
 # PSEUDO CODE EXERCISE
@@ -260,8 +262,6 @@ round(f.statistic, 3) == round(f_stat, 3)
 ## 4. Calculate ANOVA using statsmodel
 
 <img src="attachment:Screen%20Shot%202019-06-03%20at%2010.36.09%20AM.png" width="400">
-
-## Perform an ANOVA with scipy
 
 #### Next steps
 Just because we have rejected the null hypothesis, it doesn't mean we have conclusively showed which group is significantly different from which - remember, the alternative hypothesis is "the null is not true". 
