@@ -263,7 +263,7 @@ round(f.statistic, 3) == round(f_stat, 3)
 
 <img src="attachment:Screen%20Shot%202019-06-03%20at%2010.36.09%20AM.png" width="400">
 
-#### Next steps
+## Next steps
 Just because we have rejected the null hypothesis, it doesn't mean we have conclusively showed which group is significantly different from which - remember, the alternative hypothesis is "the null is not true". 
 
 We need to conduct post hoc tests for multiple comparison to find out which groups are different, the most prominent post hoc tests are:
@@ -277,11 +277,13 @@ https://www.statisticshowto.com/studentized-range-distribution/#qtable
 After calculating a value for LSD or HSD, we compare each pair wise mean difference with the LSD or HSD difference. If the pairwise mean difference exceeds the LSD/HSD, then they are significantly different.
 
 ## Two-Way ANOVA:
-Using one-way ANOVA, we found out that the season was impactful on the mood of different people. What if the season was to affect different groups of people differently? Say maybe older people were affected more by the seasons than younger people.
 
-Moreover, how can we be sure as to which factor(s) is affecting the mood more? Maybe the age group is a more dominant factor responsible for a person's mode than the season.
+Returning to the example at the very beginning of the lesson, say 
+we found out, using one-way ANOVA, that the season was impactful on the mood of different people. What if the season was to affect different groups of people differently?  Maybe older people were affected more by the seasons than younger people.
 
-For such cases, when the outcome or dependent variable (in our case the test scores) is affected by two independent variables/factors we use a slightly modified technique called two-way ANOVA.
+Moreover, how can we be sure as to which factor(s) is affecting the mood more? Maybe the age group is a more dominant factor responsible for a person's mood than the season.
+
+For such cases, when the outcome or dependent variable is affected by two independent variables/factors we use a slightly modified technique called two-way ANOVA.
 
 ### Resources
 
