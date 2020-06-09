@@ -107,32 +107,6 @@ t.statistic**2
 
 
 
-
-```python
-#_SOLUTION__
-
-'''
-# Which test would you run fort these scenarios:
-
-1. The average salary per month of an English Premier League player is 240,000 Pounds. You would like to test whether players who don't have a dominant foot make more than the rest of the league.  There are only 25 players who are considered ambidextrous. 
-Answer: one_sample t-test: small sample size  
-
-2. You would like to test whether there is a difference in arrest rates across neighborhoods with different racial majorities.  You have point statistics of mean arrest rates associated with neighborhoods of majority white, black, hispanic, and asian populations.
-Answer: ANOVA  
-3. You are interested in testing whether the superstition that black cats are bad luck affects adoption rate.  You would like to test whether black-fur shelter cats get adopted at a different rate than cats of other fur colors.
-Answer: Two-sample two tailed t-test  
-4. You are interested in whether car-accident rates in cities where marijuana is legal differs from the general rate of car accidents. Assume you know the standard deviation of car accident rates across all U.S. cities.
-Answer: Z-test  
-'''
-```
-
-
-
-
-    "\n# Which test would you run fort these scenarios:\n\n1. The average salary per month of an English Premier League player is 240,000 Pounds. You would like to test whether players who don't have a dominant foot make more than the rest of the league.  There are only 25 players who are considered ambidextrous. \nAnswer: one_sample t-test: small sample size  \n\n2. You would like to test whether there is a difference in arrest rates across neighborhoods with different racial majorities.  You have point statistics of mean arrest rates associated with neighborhoods of majority white, black, hispanic, and asian populations.\nAnswer: ANOVA  \n3. You are interested in testing whether the superstition that black cats are bad luck affects adoption rate.  You would like to test whether black-fur shelter cats get adopted at a different rate than cats of other fur colors.\nAnswer: Two-sample two tailed t-test  \n4. You are interested in whether car-accident rates in cities where marijuana is legal differs from the general rate of car accidents. Assume you know the standard deviation of car accident rates across all U.S. cities.\nAnswer: Z-test  \n"
-
-
-
 ## 2. Differentiate between variance between groups and variance within groups
 
 
@@ -567,7 +541,7 @@ df.boxplot('cnt', by='season_cat', figsize=(6,6))
 
 
 
-![png](index_files/index_28_1.png)
+![png](index_files/index_27_1.png)
 
 
 
@@ -689,7 +663,7 @@ data.boxplot('cnt', by = 'season_cat')
 
 
 
-![png](index_files/index_34_1.png)
+![png](index_files/index_33_1.png)
 
 
 
