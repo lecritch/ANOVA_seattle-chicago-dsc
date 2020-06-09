@@ -116,13 +116,22 @@ print(stats.f_oneway(one,two,three))
 print(stats.f_oneway(four,five,six))
 ```
 
+    F_onewayResult(statistic=0.06693195000987277, pvalue=0.9353322377145488)
+    F_onewayResult(statistic=11.760064743099003, pvalue=5.2985391195830756e-05)
+    F_onewayResult(statistic=3.194250788724835, pvalue=0.048432238619556506)
+
+
+
+![png](index_files/index_14_1.png)
+
+
 ## 3. Calculating ANOVA 
 In this section, we will learn how to calculate ANOVA without using any packages. All we need to calculate is:
  
-$\bar{X} = $ Mean of Means
+$\bar{X} = $ Mean of Means = Mean of entire dataset
 
 
-Total Sum of Squares is the every value minus the mean of the entire population, or in other words, the total varaince of the population. 
+Total Sum of Squares is the square of every value minus the mean means, or in other words, the variance of the entire dataset without dividing through by degrees of freedom. 
 - $SS_t$ = $\sum (X_{ij} - \bar X)^2$
 
 The total sum of squares can be broken down into the sum of squares between and the sum of squares within.
@@ -134,13 +143,6 @@ The sum of squares between accounts for variance in the dataset that comes from 
 The sum of squares within accounts for variance that comes from within each sample.  That is, the sum of the variances of each group weighted by the group's degrees of freedom:
 - $SS_w$ = $\sum (n_i - 1) s_i ^ 2$  
 
-
-- $MS_b$ = $\frac{SS_b}{DF_b}$
-- $MS_w$ = $\frac{SS_w}{DF_w}$
-
-
-- $F$ = $\frac{MS_b}{MS_w}$
-
 Degrees of Freedom for ANOVA:
 -  $DF_{between}$ = k - 1
 - $DF_{within}$ = N - k
@@ -150,6 +152,12 @@ Notations:
 - k is the number of groups
 - N is the total number of observations
 - n is the number of observations in each group
+
+- $MS_b$ = $\frac{SS_b}{DF_b}$
+- $MS_w$ = $\frac{SS_w}{DF_w}$
+
+
+- $F$ = $\frac{MS_b}{MS_w}$
 
 Like regression and t-test, we can also perform hypothesis testing with ANOVA. 
 
