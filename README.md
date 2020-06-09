@@ -116,15 +116,6 @@ print(stats.f_oneway(one,two,three))
 print(stats.f_oneway(four,five,six))
 ```
 
-    F_onewayResult(statistic=0.06693195000987277, pvalue=0.9353322377145488)
-    F_onewayResult(statistic=11.760064743099003, pvalue=5.2985391195830756e-05)
-    F_onewayResult(statistic=3.194250788724835, pvalue=0.048432238619556506)
-
-
-
-![png](index_files/index_14_1.png)
-
-
 ## 3. Calculating ANOVA 
 In this section, we will learn how to calculate ANOVA without using any packages. All we need to calculate is:
  
@@ -173,6 +164,10 @@ Under the null hypothesis (and with certain assumptions), both quantities estima
 
 # Let's code the f-stat together
 
+SST = sum([(ride-df.cnt.mean())**2 for ride in df.cnt])
+print(SST)
+
+
 # Define k 
 k = 4
 # Define N
@@ -201,6 +196,7 @@ for season in df.season_cat.unique():
     group_var = np.var(df[df.season_cat == season].cnt, ddof=1)
     ssw += group_var*(n-1)
 
+
 # Calculate DFw
 DFw = N-k
 
@@ -216,6 +212,10 @@ MSw = ssw/DFw
 f_stat = MSb/MSw
 f_stat
 ```
+
+    2739535392.046512
+    2739535392.0465117
+
 
 
 
