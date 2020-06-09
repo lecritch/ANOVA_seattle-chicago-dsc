@@ -60,7 +60,7 @@ stats.f_oneway(one, two)
 
 
 
-    F_onewayResult(statistic=14.469752429760199, pvalue=0.00018970115190352244)
+    F_onewayResult(statistic=9.171629499521934, pvalue=0.0027853151648186097)
 
 
 
@@ -76,7 +76,7 @@ t
 
 
 
-    Ttest_indResult(statistic=-3.803912778936999, pvalue=0.00018970115190352211)
+    Ttest_indResult(statistic=-3.028469828068612, pvalue=0.0027853151648186292)
 
 
 
@@ -89,7 +89,7 @@ t.statistic**2
 
 
 
-    14.4697524297602
+    9.171629499521929
 
 
 
@@ -597,7 +597,7 @@ df.boxplot('cnt', by='season_cat', figsize=(6,6))
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a16346dd8>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1a1f6e04e0>
 
 
 
@@ -637,159 +637,141 @@ print(stats.ttest_ind(summer, winter))
 
 
 ```python
+# Round Robin: 
+
 import numpy as np
-# Code for me:
 
 mccalister = ['Adam', 'Amanda','Chum', 'Dann', 
  'Jacob', 'Jason', 'Johnhoy', 'Karim', 
 'Leana','Luluva', 'Matt', 'Maximilian', ]
 
-new_choice = np.random.choice(mccalister)
-print(new_choice)
-mccalister.remove(new_choice)
-```
+np.random.choice(mccalister, 3)
 
-    Jason
-
-
-
-```python
-df.cnt
 ```
 
 
 
 
-    0       985
-    1       801
-    2      1349
-    3      1562
-    4      1600
-           ... 
-    726    2114
-    727    3095
-    728    1341
-    729    1796
-    730    2729
-    Name: cnt, Length: 731, dtype: int64
+    array(['Jacob', 'Karim', 'Adam'], dtype='<U10')
 
 
 
 
 ```python
-# Instead, we can run an ANOVA test to see if there is statistically significant differences between the means.
+# PSEUDO CODE EXERCISE
 
-# Let's code the f-stat together
-# Here is the pseudo code
+1. # Calculate the mean of means.
 
-# Calculate is the Total sum of squares 
-# which can be thought of as the variance without dividing through by the sample size 
-# We can decompose SS into SSb and SSw
-ss = None
+2. # define a variable (with an appropriate name) which contains the total variability of the dataset, 
+# or in other words the total deviation from the mean
 
-# Define k 
-k = None
-# Define N
-N = None
+3. # define a variable that contains the variability of the dataset which is results from the difference of means.
 
-# Calculate SSB
+4. # define a variable that contains the variablity of the dataset which results from the variance of each sample
+
+5. # Sanity Check: make sure all of the variability of the dataset is accounted for by the two last answers.
+
+6. # Define variables that contain the values of the two important degrees of freedom.
+
+7. # Define a variable which holds a value which represents the variance of weighted individual group means.
+
+8. # Define a variable which holds a value which represents the variance of the weighted individual group variances.
+
+9. # Define and properly name a variable whose contents, if close to 1, represents a dataset whose 
+# larger group variances drown the distinguishing qualities of differences in means.
+
+9 # Ensure that the prior calculation matches the output below:
+
+f = stats.f_oneway(df['cnt'][df['season_cat'] == 'summer'],
+                df['cnt'][df['season_cat'] == 'fall'], 
+                df['cnt'][df['season_cat'] == 'winter'],
+                df['cnt'][df['season_cat'] == 'spring'])
+
+f.statistic
+```
 
 
 
-ssb = None
-# Calculate SSW
 
-ssw = None
+    128.76962156570784
 
-# check
-# ss == ssb+ssw
 
-# Calculate DFw
-DFw = None
 
-# Calculate DFb
-DFb = None
 
-# Calculate MSb
-# The variance that comes from between group variation
-Msb = None
-
-# Calculate MSw
-# The variance that comes from within group variation
-MSw = None
-
-# Calculate F-stat
-f_stat = None
+```python
 
 ```
 
-    2739535392.046512
-    2739535392.046512
+
+
+
+    array(['spring', 'summer', 'fall', 'winter'], dtype=object)
+
 
 
 
 ```python
 #__SOLUTION__
-# Instead, we can run an ANOVA test to see if there is statistically significant differences between the means.
+# PSEUDO CODE EXERCISE
 
-# Let's code the f-stat together
+1. # Calculate the mean of means.
 
-SST = sum([(ride-df.cnt.mean())**2 for ride in df.cnt])
-print(SST)
+X_bar = df.cnt.mean()
 
+2. # define a variable (with an appropriate name) which contains the total variability of the dataset, 
+# or in other words the total deviation from the mean
 
-# Define k 
-k = 4
-# Define N
+ss = sum([(x - X_bar)**2 for x in df.cnt])
 
-N = len(df)
-# Here is the pseudo code
+3. # define a variable that contains the variability of the dataset which is results from the difference of means.
+ssb = sum(
+            [len(df[df.season_cat == season])*
+             (X_bar 
+             - np.mean(df[df.season_cat == season].cnt))**2 
+             for season in df.season_cat.unique()
+            ])
+4. # define a variable that contains the variablity of the dataset which results from the variance of each sample
+ssw = sum(
+            [(len(df[df.season_cat == season])-1)
+             * np.var(df[df.season_cat == season].cnt, ddof=1)
+             for season in df.season_cat.unique()
+            ])
 
-# Calculate SSb
-# This is the amount of variability accounted for by the difference in means
-mean_of_means = df.cnt.mean()
+5. # Sanity Check: make sure all of the variability of the dataset is accounted for by the two last answers.
+print(round(ss, 3) == round((ssb + ssw), 3))
 
-ssbs = 0
-
-for season in df.season_cat.unique():
-    
-    group_mean = df[df.season_cat == season].cnt.mean()
-    sum_of_s = (group_mean - mean_of_means)**2
-    ssbs += len(df[df.season_cat == season])* sum_of_s
-    
-ssb = ssbs
-# Calculate SSw
-
-ssw = 0
-for season in df.season_cat.unique():
-    n = len(df[df.season_cat == season])
-    group_var = np.var(df[df.season_cat == season].cnt, ddof=1)
-    ssw += group_var*(n-1)
+6. # Define variables that contain the values of the two important degrees of freedom.
+df_b = 4-1
+df_w = len(df) - 4
 
 
-# Calculate DFw
-DFw = N-k
+7. # Define a variable which holds a value which represents the variance of weighted individual group means.
+msb = ssb/df_b
+8. # Define a variable which holds a value which represents the variance of the weighted individual group variances.
+msw = ssw/df_w
+9. # Define and properly name a variable whose contents, if close to 1, represents a dataset whose 
+# larger group variances drown the distinguishing qualities of differences in means.
 
-# Calculate DFb
-DFb = k-1
-# Calculate MSb
+f_stat = msb/msw
 
-MSb = ssb/DFb
-# Calculate MSw
-MSw = ssw/DFw
-# Calculate F-stat
+9 # Ensure that the prior calculation matches the output below:
 
-f_stat = MSb/MSw
-f_stat
+f = stats.f_oneway(df['cnt'][df['season_cat'] == 'summer'],
+                df['cnt'][df['season_cat'] == 'fall'], 
+                df['cnt'][df['season_cat'] == 'winter'],
+                df['cnt'][df['season_cat'] == 'spring'])
+
+round(f.statistic, 3) == round(f_stat, 3)
+
 ```
 
-    2739535392.046512
+    True
 
 
 
 
 
-    128.7696215657079
+    True
 
 
 
@@ -833,21 +815,6 @@ print(anova_table)
 
 
 <img src="attachment:Screen%20Shot%202019-06-03%20at%2010.36.09%20AM.png" width="400">
-
-
-```python
-data.columns
-```
-
-
-
-
-    Index(['instant', 'dteday', 'season', 'yr', 'mnth', 'holiday', 'weekday',
-           'workingday', 'weathersit', 'temp', 'atemp', 'hum', 'windspeed',
-           'casual', 'registered', 'cnt', 'season_cat'],
-          dtype='object')
-
-
 
 ## Perform an ANOVA with scipy
 
